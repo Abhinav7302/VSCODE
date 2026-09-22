@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main() {
+    // P(x) = 5x^3 + 2x^2 - 7x + 4
+    int poly[] = {4, -7, 2, 5};
+
+    int degree = 3;
+
+    printf("Polynomial: ");
+
+    for (int i = degree; i >= 0; i--) {
+        printf("%dx^%d", poly[i], i);
+
+        if (i > 0)
+            printf(" + ");
+    }
+
+    return 0;
+}
