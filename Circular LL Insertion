@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+// Insert at beginning
+struct Node* insertBeginning(struct Node* last, int data) {
+    struct Node* newNode = malloc(sizeof(struct Node));
+
+    newNode->data = data;
+
+    if (last == NULL) {
+        newNode->next = newNode;
+        return newNode;
+    }
+
+    newNode->next = last->next;
+    last->next = newNode;
+
+    return last;
+}
+
+// Insert at end
+struct Node* insertEnd(struct Node* last, int data) {
+    struct Node* newNode = malloc(sizeof(struct Node));
+
+    newNode->data = data;
+
+    if (last == NULL) {
+        newNode->next = newNode;
+        return newNode;
+    }
+
+    newNode->next = last->next;
+    last->next = newNode;
+
+    return newNode;  // New node becomes last
+}
+
+// Display circular linked list
+void display(struct Node* last) {
+    if (last == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct Node* temp = last->next;
+
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != last->next);
+
+    printf("(back to first node)\n");
+}
+
+int main() {
+    struct Node* last = NULL;
+
+    last = insertEnd(last, 10);
+    last = insertEnd(last, 20);
+    last = insertBeginning(last, 5);
+    last = insertEnd(last, 30);
+
+    display(last);
+
+    return 0;
+}
