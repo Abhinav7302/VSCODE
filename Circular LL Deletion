@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+// Delete a node
+struct Node* deleteNode(struct Node* last, int key) {
+    if (last == NULL) {
+        printf("List is empty\n");
+        return NULL;
+    }
+
+    struct Node *curr = last->next;
+    struct Node *prev = last;
+
+    // Search for the node
+    do {
+        if (curr->data == key) {
+            // Only one node in the list
+            if (curr == last && curr->next == last) {
+                free(curr);
+                return NULL;
+            }
+
+            // Deleting the first node
+            if (curr == last->next) {
+                last->next = curr->next;
+                free(curr);
+                return last;
+            }
+
+            // Deleting the last node
+            if (curr == last) {
+                prev->next = curr->next;
+                free(curr);
+                return prev;
+            }
+
+            // Deleting a middle node
+            prev->next = curr->next;
+            free(curr);
+            return last;
+        }
+
+        prev = curr;
+        curr = curr->next;
+
+    } while (curr != last->next);
+
+    printf("Node not found\n");
+    return last;
+}
+
+// Display the list
+void display(struct Node* last) {
+    if (last == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct Node* temp = last->next;
+
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != last->next);
+
+    printf("(back to first)\n");
+}
+
+int main() {
+    struct Node *last = NULL;
+
+    // Creating circular linked list
+    struct Node *n1 = malloc(sizeof(struct Node));
+    struct Node *n2 = malloc(sizeof(struct Node));
+    struct Node *n3 = malloc(sizeof(struct Node));
+    struct Node *n4 = malloc(sizeof(struct Node));
+
+    n1->data = 10;
+    n2->data = 20;
+    n3->data = 30;
+    n4->data = 40;
+
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n1;
+
+    last = n4;
+
+    printf("Original list:\n");
+    display(last);
+
+    last = deleteNode(last, 30);
+
+    printf("After deletion:\n");
+    display(last);
+
+    return 0;
+}
